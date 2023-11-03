@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+local_myweather.egg-info/PKG-INFO
+local_myweather.egg-info/SOURCES.txt
+local_myweather.egg-info/dependency_links.txt
+local_myweather.egg-info/top_level.txt
+src/__init__.py
+src/my_weather.py
+tests/test_myweather.py
