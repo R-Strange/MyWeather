@@ -3,10 +3,26 @@ from typing import Dict, List
 import argparse
 import json
 from urllib import parse, request
+import os
+CREDENTIALS_PATH: str = "./creds.yaml"
+abs_credentials_path: str = os.path.abspath(CREDENTIALS_PATH)
 
-def read_creds() -> str:
+def read_creds(path: str=abs_credentials_path) -> str:
     """Reads the API key from creds.yaml"""
-    with open("creds.yaml", "r") as f:
+    try:
+        with open(path, "r") as f:
+            creds: Dict = yaml.safe_load(f)
+            open_weather_api_key: str = creds["open_weather_api_key"]
+        return open_weather_api_key
+    except FileNotFoundError:
+        print("creds.yaml file not found")
+        raise FileNotFoundError
+    except IOError:
+        print("Error opening creds.yaml file")
+        raise IOError
+    except:
+        raise
+    with open(path, "r") as f:
         creds: Dict = yaml.safe_load(f)
         open_weather_api_key: str = creds["open_weather_api_key"]
     return open_weather_api_key
