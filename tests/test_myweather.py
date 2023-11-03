@@ -1,6 +1,8 @@
 from my_weather.src.my_weather import read_creds, parse_user_cli_args, api_url_query_string_builder, print_weather_data
 import yaml
 import argparse
+import io
+import sys
 
 
 # needs pytest-mock!!!
@@ -223,8 +225,7 @@ class TestPrintWeatherData:
 
     # Should print the weather data to the console
     def test_print_weather_data_console(self):
-        import io
-        import sys
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -235,11 +236,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: 2021-10-18 15:38:10\n" \
                           "  Sunset: 2021-10-19 02:44:50\n"
@@ -247,15 +248,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Should print the weather data for a given city
     def test_print_weather_data_city_name(self):
-        import io
-        import sys  # Import the sys module
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -266,11 +266,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: 2021-10-18 15:38:10\n" \
                           "  Sunset: 2021-10-19 02:44:50\n"
@@ -278,16 +278,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Should print the weather conditions
     def test_print_weather_data_conditions(self):
-        import io
-        import sys
-
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -298,11 +296,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: 2021-10-18 15:38:10\n" \
                           "  Sunset: 2021-10-19 02:44:50\n"
@@ -310,16 +308,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Should handle missing 'sys' key in weather_data
     def test_print_weather_data_missing_sys_key_fixed(self):
-        import io
-        import sys
-
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -329,11 +325,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: N/A\n" \
                           "  Sunset: N/A\n"
@@ -341,15 +337,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Should handle missing 'sunrise' key in weather_data['sys']
     def test_print_weather_data_missing_sunrise_key_fixed(self):
-        import io
-        import sys
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -360,11 +355,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: N/A\n" \
                           "  Sunset: 2021-10-19 02:44:50\n"
@@ -372,15 +367,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Should handle missing 'sunset' key in weather_data['sys']
     def test_print_weather_data_missing_sunset_key_fixed(self):
-        import io
-        import sys
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -391,11 +385,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: 2021-10-18 15:38:10\n" \
                           "  Sunset: N/A\n"
@@ -403,15 +397,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Test that the printed sunrise and sunset times are in the correct format
     def test_printed_times_format(self):
-        import io
-        import sys
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -422,11 +415,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: 2021-10-18 15:38:10\n" \
                           "  Sunset: 2021-10-19 02:44:50\n"
@@ -434,15 +427,14 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
 
     # Test that the printed sunrise and sunset times are in the correct format
     def test_printed_times_format(self):
-        import io
-        import sys
+        metrics="metric"
         weather_data = {
             'name': 'City',
             'weather': [{'description': 'Cloudy'}],
@@ -453,11 +445,11 @@ class TestPrintWeatherData:
         }
         expected_output = "Current weather in City:\n" \
                           "  Conditions: Cloudy\n" \
-                          "  Temperature: 20 degrees\n" \
-                          "  Feels like: 18 degrees\n" \
+                          "  Temperature: 20 °C\n" \
+                          "  Feels like: 18 °C\n" \
                           "  Humidity: 80%\n" \
                           "  Wind: 10 mph\n" \
-                          "  Wind direction: 180 degrees\n" \
+                          "  Wind direction: 180°\n" \
                           "  Cloud cover: 50%\n" \
                           "  Sunrise: 2021-10-18 15:38:10\n" \
                           "  Sunset: 2021-10-19 02:44:50\n"
@@ -465,7 +457,74 @@ class TestPrintWeatherData:
         captured_output = io.StringIO()
         sys.stdout = captured_output
 
-        print_weather_data(weather_data)
+        print_weather_data(weather_data, metrics)
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == expected_output
+
+    # Test that imperial units are printed when the metrics are imperial
+    def test_print_weather_data_imperial_conversion(self):
+        # Given
+        metrics="imperial"
+        weather_data = {
+            'name': 'City',
+            'weather': [{'description': 'Cloudy'}],
+            'main': {'temp': 20, 'feels_like': 18, 'humidity': 80},
+            'wind': {'speed': 10, 'deg': 180},
+            'clouds': {'all': 50},
+            'sys': {'sunrise': 1634567890, 'sunset': 1634607890}
+        }
+        expected_output = "Current weather in City:\n" \
+            "  Conditions: Cloudy\n" \
+            "  Temperature: 20 °F\n" \
+            "  Feels like: 18 °F\n" \
+            "  Humidity: 80%\n" \
+            "  Wind: 10 mph\n" \
+            "  Wind direction: 180°\n" \
+            "  Cloud cover: 50%\n" \
+            "  Sunrise: 2021-10-18 15:38:10\n" \
+            "  Sunset: 2021-10-19 02:44:50\n"
+        
+        captured_output = io.StringIO()
+        sys.stdout = captured_output
+        
+        # When
+        print_weather_data(weather_data, metrics)
+        
+        # Then
+        sys.stdout = sys.__stdout__
+        assert captured_output.getvalue() == expected_output
+
+    # Test that kelvin units are printed when the metrics are kelvin
+    def test_print_weather_data_kelvin_conversion(self):
+        # Given
+        metrics="kelvin"
+        weather_data = {
+            'name': 'City',
+            'weather': [{'description': 'Cloudy'}],
+            'main': {'temp': 20, 'feels_like': 18, 'humidity': 80},
+            'wind': {'speed': 10, 'deg': 180},
+            'clouds': {'all': 50},
+            'sys': {'sunrise': 1634567890, 'sunset': 1634607890}
+        }
+        expected_output = "Current weather in City:\n" \
+                          "  Conditions: Cloudy\n" \
+                          "  Temperature: 293.15 °K\n" \
+                          "  Feels like: 291.15 °K\n" \
+                          "  Humidity: 80%\n" \
+                          "  Wind: 10 mph\n" \
+                          "  Wind direction: 180°\n" \
+                          "  Cloud cover: 50%\n" \
+                          "  Sunrise: 2021-10-18 15:38:10\n" \
+                          "  Sunset: 2021-10-19 02:44:50\n"
+
+        captured_output = io.StringIO()
+        sys.stdout = captured_output
+
+        # When
+        print_weather_data(weather_data, metrics)
+
+        # Then
+        sys.stdout = sys.__stdout__
+        assert captured_output.getvalue() == expected_output
+
