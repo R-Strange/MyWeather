@@ -4,7 +4,9 @@ sys.path.append(os.path.abspath('../src/'))
 
 import pytest
 from unittest.mock import patch
-from my_weather import get_weather_data, print_weather_data
+# from my_weather import get_weather_data, print_weather_data
+from my_weather.src.my_weather import get_weather_data, print_weather_data
+
 
 
 @patch('MyWeather.request.urlopen')
