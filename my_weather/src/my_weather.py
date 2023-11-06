@@ -103,7 +103,7 @@ def api_url_query_string_builder(
     Args:
         open_weather_api_key (str): The API key for the OpenWeather API.
         city (List[str]): A list of city names.
-        imperial (bool, optional): A flag indicating whether to use imperial units (default is False).
+        imperial (bool, optional): A flag indicating whether to use imperial units (default is False). Kelvin units are not supported by the OpenWeather API, but we calculate them from Celsius units as needed later.
 
     Returns:
         str: The URL query string for the OpenWeather API.
